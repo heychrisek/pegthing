@@ -205,16 +205,6 @@
   [string]
   (filter #(and (not (= % " ")) (not (= % ""))) (clojure.string/split string #"")))
 
-(defn prompt-move
-  [board]
-  (println "\nHere's your board:")
-  (print-board board)
-  (println "Move from where to where? Enter two letters:")
-  (let [input (map letter->pos (characters-as-strings (get-input)))]
-    (if-let [new-board (make-move board (first input) (second input))]
-      (user-entered-valid-move new-board)
-      (user-entered-invalid-move board))))
-
 (defn user-entered-invalid-move
   "Handles the next step after a user has entered an invalid move"
   [board]
@@ -227,6 +217,16 @@
   (if (can-move? board)
     (prompt-move board)
     (game-over board)))
+
+(defn prompt-move
+  [board]
+  (println "\nHere's your board:")
+  (print-board board)
+  (println "Move from where to where? Enter two letters:")
+  (let [input (map letter->pos (characters-as-strings (get-input)))]
+    (if-let [new-board (make-move board (first input) (second input))]
+      (user-entered-valid-move new-board)
+      (user-entered-invalid-move board))))
 
 (defn prompt-empty-peg
   [board]
